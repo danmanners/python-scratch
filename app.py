@@ -8,7 +8,7 @@ app = Flask(__name__)
 dictionaryData = list()
 
 
-@app.route('/dict/refresh')
+@app.route('/dict/refresh/')
 # When called, download the dictionary
 def downloadDictionary(dictionary='https://github.com/dwyl/english-words/raw/master/words.txt'):
     http = urllib3.PoolManager()
@@ -29,7 +29,7 @@ def randomNumber(start=0, end=1000, step=1):
     return value
 
 
-@app.route('/random')
+@app.route('/random/')
 def randomObject():
     selector = randomNumber(start=1, end=3)
     if str(selector) == '1':
@@ -39,7 +39,7 @@ def randomObject():
         return randomInt
 
 
-@app.route('/random/word')
+@app.route('/random/word/')
 def randomWord():
 
     lineCount = len(dictionaryData)
@@ -47,7 +47,7 @@ def randomWord():
     return str(dictionaryData[lineNumber] + "\n")
 
 
-@app.route('/random/number')
+@app.route('/random/number/')
 def random_route():
     number = randomNumber()
     return number
