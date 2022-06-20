@@ -1,0 +1,49 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: python-learning
+  namespace: python-learning
+spec:
+  commonName: python-learning.danmanners.com
+  secretName: python-learning
+  dnsNames:
+    - python-learning.danmanners.com
+  issuerRef:
+    name: acme-prod
+    kind: ClusterIssuer
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: python-learning-web
+  namespace: python-learning
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`python-learning.danmanners.com`)
+      kind: Rule
+      services:
+        - name: python-learning
+          port: 80
+      middlewares:
+        - name: http-https-redirectscheme
+          namespace: kube-system
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: python-learning-websecure
+  namespace: python-learning
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`python-learning.danmanners.com`)
+      kind: Rule
+      services:
+        - name: python-learning
+          port: 80
+  tls:
+    secretName: python-learning

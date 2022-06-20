@@ -16,6 +16,40 @@ curl -sL localhost:5000/random/number
 for int in {1..100}; do curl -sL localhost:5000/random; done
 ```
 
+## Building Multi-Architecture Containers and pushing to `ghcr.io`
+
+> `ghcr.io` = GitHub Container Registry
+
+```bash
+# Login to ghcr.io with Buildah
+cat ~/.github/token | buildah login --username danmanners --password-stdin ghcr.io
+
+# Create the Buildah multi-arch manifest
+buildah manifest create python-learning
+
+# Build the amd64 (Intel/AMD) Container
+buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.0 --manifest python-learning --arch amd64 .
+
+# Build the arm64 (Raspberry Pi) Container
+buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.0 --manifest python-learning --arch arm64 .
+
+# Push both Container Images up to ghcr.io
+buildah manifest push --all python-learning docker://ghcr.io/danmanners/python-learning:v0.1.0
+```
+
+## Deploying everything to Kubernetes
+
+```bash
+➜  demo git:(main) ✗ k apply -k kubernetes
+namespace/python-learning created
+service/python-learning created
+service/python-learning-extname created
+deployment.apps/python-learning created
+certificate.cert-manager.io/python-learning created
+ingressroute.traefik.containo.us/python-learning-web created
+ingressroute.traefik.containo.us/python-learning-websecure created
+```
+
 ## Quickstart - Local Python
 
 ```bash

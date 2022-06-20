@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-learning
+  labels:
+    app.kubernetes.io/instance: python-learning
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: python-learning
+  sessionAffinity: None
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-learning-extname
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: python-learning.danmanners.com
+    external-dns.alpha.kubernetes.io/ttl: "300"
+  labels:
+    app.kubernetes.io/instance: python-learning
+spec:
+  type: ExternalName
+  externalName: kube.danmanners.com
+  sessionAffinity: None
