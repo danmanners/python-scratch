@@ -28,13 +28,13 @@ cat ~/.github/token | buildah login --username danmanners --password-stdin ghcr.
 buildah manifest create python-learning
 
 # Build the amd64 (Intel/AMD) Container
-buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.0 --manifest python-learning --arch amd64 .
+buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.1 --manifest python-learning --arch amd64 .
 
 # Build the arm64 (Raspberry Pi) Container
-buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.0 --manifest python-learning --arch arm64 .
+buildah bud --tag ghcr.io/danmanners/python-learning:v0.1.1 --manifest python-learning --arch arm64 .
 
 # Push both Container Images up to ghcr.io
-buildah manifest push --all python-learning docker://ghcr.io/danmanners/python-learning:v0.1.0
+buildah manifest push --all python-learning docker://ghcr.io/danmanners/python-learning:v0.1.1
 ```
 
 ## Deploying everything to Kubernetes

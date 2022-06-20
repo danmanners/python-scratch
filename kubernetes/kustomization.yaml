@@ -12,4 +12,4 @@ resources:
 images:
   - name: python-learning-image
     newName: ghcr.io/danmanners/python-learning
-    newTag: v0.1.0
+    newTag: v0.1.1
