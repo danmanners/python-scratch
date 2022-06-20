@@ -8,6 +8,11 @@ app = Flask(__name__)
 dictionaryData = list()
 
 
+def textForm(stringData):
+    # Format Text how we like
+    return f'{str(stringData)}\n'
+
+
 @app.route('/dict/refresh/')
 # When called, download the dictionary
 def downloadDictionary(dictionary='https://github.com/dwyl/english-words/raw/master/words.txt'):
@@ -19,9 +24,9 @@ def downloadDictionary(dictionary='https://github.com/dwyl/english-words/raw/mas
         # Update the list GLOBALLY
         global dictionaryData
         dictionaryData = data.splitlines()
-        return f'Dictionary refreshed!\n'
+        return textForm('Dictionary refreshed!')
     else:
-        return f'The dictionary URL returned a "{r.status}" status code!'
+        return textForm(f'The dictionary URL returned a "{r.status}" status code!')
 
 
 def randomNumber(start=0, end=1000, step=1):
@@ -37,7 +42,7 @@ def randomObject():
     if str(selector) == '1':
         return randomWord()
     if str(selector) == '2':
-        randomInt = f'{randomNumber()}\n'
+        randomInt = textForm(randomNumber())
         return randomInt
 
 
@@ -46,14 +51,14 @@ def randomWord():
     # Determine a random word from the dictionary
     lineCount = len(dictionaryData)
     lineNumber = randomNumber(start=0, end=lineCount)
-    return str(dictionaryData[lineNumber] + "\n")
+    return textForm(dictionaryData[lineNumber])
 
 
 @app.route('/random/number/')
 def random_route():
     # Determine a random number
     number = randomNumber()
-    return f'{number}\n'
+    return textForm(number)
 
 
 if __name__ == '__main__':
