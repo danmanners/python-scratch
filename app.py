@@ -50,7 +50,7 @@ def randomWord():
 @app.route('/random/number/')
 def random_route():
     number = randomNumber()
-    return number
+    return f'{number}\n'
 
 
 if __name__ == '__main__':
